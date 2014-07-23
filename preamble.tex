@@ -1,0 +1,404 @@
+\usepackage{graphicx}
+\usepackage{ifpdf}
+\usepackage{multirow}
+\usepackage{multicol,color}
+\usepackage{amsbsy}
+\usepackage{enumitem}
+
+%new
+\newcommand{\figlab}[1]{\label{fig:#1}}
+
+
+\newenvironment{boxdef}{%
+     \begin{center}
+       \begin{small}
+         \begin{tabular}{@{}|@{~~}l@{~~}|@{}}
+           \hline
+           \rule[-1.5ex]{0pt}{1ex}\begin{minipage}[b]{.96\linewidth}
+             \vspace{1ex}
+%          \centerline{\protlab{#2}\protref{#2}: \textbf{#1}}
+             \smallskip
+             }{%
+           \end{minipage}\\
+           \hline
+         \end{tabular}
+       \end{small}
+     \end{center}
+     }
+
+\newenvironment{boxfig}[2]{%
+\setlength{\belowcaptionskip}{-1ex}
+     \begin{figure}[ht!]
+     \newcommand{\FigCaption}{#1}
+     \newcommand{\FigLabel}{#2}
+       \vspace{-0.1cm}
+     \begin{center}
+       \begin{small}
+         \begin{tabular}{@{}|@{~~}l@{~~}|@{}}
+           \hline
+           \rule[-1.5ex]{0pt}{1ex}\begin{minipage}[b]{.96\linewidth}
+             \vspace{1ex}
+%          \centerline{\protlab{#2}\protref{#2}: \textbf{#1}}
+             \smallskip
+             }{%
+           \end{minipage}\\
+           \hline
+         \end{tabular}
+       \end{small}
+       \vspace{-0.3cm}
+       \caption{\FigCaption}
+       \figlab{\FigLabel}
+       %\vspace{-.5cm}
+     \end{center}
+     \end{figure}}
+\def\cruc{{\sf crucial}}
+%\def\Pred{{\sf Pred}}
+\def\Hyb{{\sf Hybrid}}
+\def \LREnc {\mathsf{LREnc}}
+\def \LRDec {\mathsf{LRDec}}
+
+\def \wTDEnc {\mathsf{wTDEnc}}
+\def \wTDDec {\mathsf{wTDDec}}
+
+\def \TamperGame {\mathsf{TamperGame}}
+\def \S {\mathcal{S}}
+\def \SimGame {\mathsf{SimGame}}
+\def \destruct {\mathsf{sd}}
+\def \persist {\mathsf{cu}}
+%\def \F {\mathcal{F}}
+\def \H {\mathcal{H}}
+\def \same {\mathsf{same}}
+ \usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage{tipa}
+\usepackage{tikz}
+\usepackage[all]{xy}
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+\newcommand{\poly}{\mathrm{poly}}
+%\renewcommand{\log}{\lg}
+\newcommand{\rob}[1]{\left( #1 \right)}
+\newcommand{\sqb}[1]{\left[ #1 \right]}
+\newcommand{\cub}[1]{\left\{ #1 \right\} }
+\newcommand{\rb}[1]{\left( #1 \right)} %Round
+\renewcommand{\sb}[1]{\left[ #1 \right]}
+\newcommand{\abs}[1]{\left| #1 \right|} %| |
+\newcommand{\zonzo}{\zo^n \to \zo}
+\newcommand{\zon}{\zo^n}
+\newcommand{\Gzf}{\G_{\F,\Z}}
+%\newcommand{\gzf}[2]{\mbox{\Large $g_{\bld #1}^{\bld #2}$}}
+\newcommand{\gzf}[2]{\mbox{\Large $g_{#1}^{#2}$}}
+\newcommand{\tn}[1]{\mbox{\small $#1$}}
+%\newcommand{\tn}[1]{\textnormal{$#1$}}
+\newcommand{\bld}[1]{\mbox{\small $#1$}}
+\newcommand{\bldz}[1]{\text{\Huge $#1$}}
+\newcommand{\blds}[1]{\text{\Large $#1$}}
+\newcommand{\cosc}{coding scheme}
+\newcommand{\AND}{\bigwedge}
+\def \Repeat {\mathsf{RLeakage}}
+\def \repeat {\mathsf{repeat}}
+\def \barf {\bar{f}}
+\def \b {b}
+\newcommand{\knc}{$(k,n)$-coding scheme}
+\newcommand{\ecosc}{$(\F,\eps)$-secure tamper detection code}
+\newcommand{\wcosc}{$(\F,\eps)$-weak tamper detection code}
+\newcommand{\tdc}{secure tamper detection code}
+\newcommand{\wtdc}{weak tamper detection code}
+\newcommand{\lrc}{leakage resilient code}
+\newcommand{\rlrc}{repeated-leakage-resilient}
+
+\newcommand{\tpb}{$t$-wise $p$-bounded}
+\newcommand{\leaf}{f_{leak}}
+\def\pbound{{\sf ProbBound}}
+\def\ebound{{\sf ExpetBound}}
+\newcommand{\typeone}{injective}
+\newcommand{\typetwo}{$d$-bounded-collision}
+\newcommand{\typethree}{$(\beta,d)$-bounded}
+\newcommand{\abf}{$(\alpha,\beta)$-bounded}
+
+\newcommand{\prob}[1]{\Pr \left[ #1 \right]}
+\newcommand{\probo}[3]{\Pr_{#1 \leftarrow #2}\left[ #3 \right]}
+\def\gone{{\sf HybOne}}
+\def\gtwo{{\sf HybTwo}}
+\def\gz {{\sf GameZero}}
+\def\STOP {{\sf stop}}
+\def\decis{{\sf Decision}}
+\def\simdec{{\sf SimDecision}}
+\def\simz{{\sf SimZero}}
+%\newcommand{\leak}[3]{\stackrel{ #1}{\sf L_{\sf { (#2, #3)}}}}
+%\newcommand{\Leak}[3]{\stackrel{\sf (#2, #3)} {{\cal L}_{#1}}}
+\newcommand{\leak}[3]{ {\sf L}_{#1 , {\sf (#2, #3)}}}
+\newcommand{\Leak}[3]{ {\cal L}_{#1 , {\sf (#2, #3)}}}
+
+
+\newcommand{\probh}[1]{\Pr_{ h \leftarrow \H} \left[ #1 \right]}
+\newcommand{\probrm}[1]{\Pr_{r,m} \left[ #1 \right]}
+\newcommand{\probm}[1]{\Pr_{m \leftarrow U_k} \left[ #1 \right]}
+\newcommand{\probhm}[1]{\Pr_{h,m} \left[ #1 \right]}
+\newcommand{\yrz}{Y_{r,z}}
+\newcommand{\ymz}{Y_{m,z}}
+
+
+\newcommand{\handout}[5]{
+   \renewcommand{\thepage}{Lecture #1, Page \arabic{page}}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{
+    \hbox to 5.78in { {\bf \coursename} \hfill #2 }
+       \vspace{4mm}
+       \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+       \vspace{2mm}
+       \hbox to 5.78in { {\it #3 \hfill #4} }
+      }
+   }
+   \end{center}
+   \vspace*{4mm}
+}
+
+\newcommand{\definitionclose}{\hspace*{\fill}$\diamondsuit$}
+\newcounter{defcounter} \setcounter{defcounter}{0}
+\newenvironment{definition}{\medskip\noindent\refstepcounter{defcounter}{\bf
+Definition \thedefcounter}\hspace{1ex}}{\definitionclose \smallskip}
+
+%\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+%\newtheorem{idef}[definition]{Informal Definition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}[lemma]{Corollary}
+\newtheorem{proposition}[lemma]{Proposition}
+\newtheorem{question}{Question}
+\newtheorem{exercise}{Exercise}
+\newtheorem{quesject}{Quesject}
+\newtheorem{remark}[question]{Remark}
+\newtheorem{construction}{Construction}	
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{assum}[theorem]{Assumption}
+\newtheorem{conclude}{Conclusion}
+\newtheorem{claim}{Claim}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{example}{Example}
+\newtheorem{project}{Project}
+\newtheorem{note}{Note}
+
+
+%\newtheorem{theorem}{Theorem}
+%\newtheorem{corollary}[theorem]{Corollary}
+%\newtheorem{lemma}[theorem]{Lemma}
+%\newtheorem{observation}[theorem]{Observation}
+%\newtheorem{proposition}[theorem]{Proposition}
+%\newtheorem{definition}[theorem]{Definition}
+%\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
+%\newtheorem{remark}[theorem]{Remark}
+%\newtheorem{assumption}[theorem]{Assumption}
+
+\newcommand{\entropy}{\mathbf{H}}
+\newcommand{\hinf}{{{\mathbf{H}}_{\infty}}}
+\newcommand{\htwo}{{{\mathbf{H}}_{2}}}
+\newcommand{\hone}{{{\mathbf{H}}_{1}}}
+\newcommand{\hsha}{{{\mathbf{H}}_{sh}}}
+
+\newcommand{\Ext}{\mathsf{Ext}}
+\newcommand{\laExt}{\mathsf{laExt}}
+\newcommand{\laMac}{\mathsf{laMAC}}
+\newcommand{\Mac}{\mathsf{MAC}}
+\newcommand{\Tag}{\mathsf{Tag}}
+\newcommand{\Pred}{\mathsf{Pred}}
+\renewcommand{\Col}{\mathsf{Col}}
+\newcommand{\Adv}{\mathsf{Adv}}
+\newcommand{\Pos}{\mathsf{Pos}}
+%\newcommand{\W}{\mathsf{}}
+
+\def \eps {\varepsilon}
+\def \logeps {\log\left({1}/{\eps}\right)}
+\def \logdel {\log\left({1}/{\delta}\right)}
+\def \logphi {\log\left({1}/{\phi}\right)}
+\def \logalpha{\log\left({1}/{\alpha}\right)}
+
+\newcommand{\secref}[1]{Section~\ref{sec:#1}}
+\newcommand{\remref}[1]{Remark~\ref{rem:#1}}
+\newcommand{\appref}[1]{Appendix~\ref{sec:#1}}
+\newcommand{\corref}[1]{Corollary~\ref{cor:#1}}
+\newcommand{\claref}[1]{Claim~\ref{cla:#1}}
+\newcommand{\prpref}[1]{Proposition~\ref{prp:#1}}
+\newcommand{\thmref}[1]{Theorem~\ref{thm:#1}}
+\newcommand{\lemref}[1]{Lemma~\ref{lem:#1}}
+\newcommand{\conjref}[1]{Conjecture~\ref{conj:#1}}
+\newcommand{\defref}[1]{Definition~\ref{def:#1}}
+\renewcommand{\eqref}[1]{Equation~(\ref{eq:#1})}
+\newcommand{\figref}[1]{Figure~\ref{fig:#1}}
+\newcommand{\conref}[1]{Conclusion~\ref{thm:#1}}
+
+\renewcommand{\ni}{\noindent}
+\newcommand{\room}{\medskip\ni}
+\newcommand{\brak}[1]{\langle #1 \rangle}
+\newcommand{\bydef}{\stackrel{\rm def}{=}}
+\def\eqq{\stackrel{\mbox{{\tiny{?}}}}{=}}
+
+\newcommand{\nin}{\not\in}
+\newcommand{\set}[1]{\{#1\}}
+\newcommand{\bit}[1]{{\{0,1\}}^{#1}}
+\newcommand{\zo}{\{0,1\}}
+\newcommand{\ignore}[1]{}
+\newcommand{\minus}{\backslash}
+\renewcommand{\implies}{\Rightarrow}
+\newcommand{\bel}{\subseteq}
+\newcommand{\half}{\frac{1}{2}}
+
+\newcommand{\Bias}{\mathsf{Bias}}
+\newcommand{\Com}{\mathsf{Com}}
+\newcommand{\Share}{\mathsf{Share}}
+\newcommand{\Eve}{\mathsf{Eve}}
+\newcommand{\SV}{\mathsf{SV}}
+\newcommand{\eSV}{\mathsf{eSV}}
+\newcommand{\st}{\;|\;}
+
+
+\newcommand{\mypar}[1]{{\vspace{.2cm}\noindent \sc #1}}
+
+\newcommand{\problem}[2]{%
+\par \noindent
+\makebox{}\\
+\makebox[3.5cm][r]{INPUT:} $\quad #1$ \\
+\makebox[3.5cm][r]{OUTPUT:}$\quad #2$ \\}
+
+%%%%%%%%%%%%%%%%%%%%% PROOFS and STUFF %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\qedsymb}{\hfill{\rule{2mm}{2mm}}}
+\def\squarebox#1{\hbox to #1{\hfill\vbox to #1{\vfill}}}
+\def\qed{\hspace*{\fill}
+        \vbox{\hrule\hbox{\vrule\squarebox{.667em}\vrule}\hrule}}
+%\def\qed{\mbox{ }\ \ \ $\Box$}
+\newenvironment{proof}{\begin{trivlist}\item[]{\bf Proof:}}
+                      {\qed \end{trivlist}}
+\newenvironment{proofsketch}{\begin{trivlist}\item[]{\bf Proof Sketch:}}
+                      {\qed \end{trivlist}}
+\newenvironment{solution}{\begin{trivlist}\item[]{\bf Solution:}}
+                      {\qed \end{trivlist}}
+\newenvironment{solsketch}{\begin{trivlist}\item[]{\bf Solution Sketch:}}
+                      {\qed \end{trivlist}}
+
+\newcommand{\cp}{\room {\bf Common Problems:}~~~}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% COMMON MACROS %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\al{\alpha}
+\def\bt{\beta}
+\def\l{\ell}
+\renewcommand{\phi}{\varphi}
+\def\eps{\varepsilon}
+\newcommand{\Zz}{\mathbb Z}
+\newcommand{\group}{\mathbb G}
+
+\def\owf{{\sf OWF}}
+\def\owp{{\sf OWP}}
+\def\tdp{{\sf TDP}}
+\def\negl{{\sf negl}}
+\def\poly{{\sf poly}}
+\def\ppt{{\sf PPT}}
+\def\gen{{\sf Gen}}
+\def\Gen{{\sf Gen}}
+\def\eval{{\sf Eval}}
+\def\sample{{\sf Sample}}
+\def\invert{{\sf Invert}}
+\newcommand{\adv}{{\mathsf{Adv}}}
+
+\def\prg{{\sf PRG}}
+\def\prf{{\sf PRF}}
+\def\rsa{{\sf RSA}}
+\def\pke{{\sf PKE}}
+\def\kem{{\sf KEM}}
+\def\ske{{\sf SKE}}
+\def\ind{{\sf IND}}
+\def\dhp{{\sf DHP}}
+\def\cdh{{\sf CDH}}
+\def\ddh{{\sf DDH}}
+\def\cpa{{\sf CPA}}
+\def\cca{{\sf CCA}}
+\def\lsb{{\sf LSB}}
+\def\indcpa{{\sf IND-CPA}}
+\def\lor{{\sf LOR}}
+\def\pk{{{\sf PK}-only}}
+\def\ow{{\sf One-Way}}
+\def\Env{{\sf Env}}
+
+\def\prp{{\sf PRP}}
+\def\cbc{{\sf CBC}}
+
+\def\ctr{{\sf CTR}}
+\def\xor{{\sf XOR}}
+%\def\E{{\mathcal E}}
+\def\E{{\cal E}}
+%\newcommand{\A}{{\cal A}}
+\newcommand{\G}{{\cal G}}
+\newcommand{\Z}{{\cal Z}}
+\newcommand{\F}{{\cal F}}
+\renewcommand{\H}{{\cal H}}
+\newcommand{\eL}{{\cal L}}
+\newcommand{\sfL}{{\sf L}}
+\newcommand{\dElta}[1]{{\Delta}_{t'}\left({#1}\right)}
+
+\def\cma{{\sf CMA}}
+
+\def\mac{{\sf MAC}}
+%\def\rpa{{\sf RPA}}
+
+\def\Tag{{\sf Tag}}
+\def\Ver{{\sf Ver}}
+\def\Auth{{\sf Auth}}
+\def\Rec{{\sf Rec}}
+
+\def\Sign{{\sf Sign}}
+\def\sig{{\sf SIG}}
+\def\otsig{\mbox{{\sf OT-SIG}}}
+\def\pks{{\sf PKS}}
+\def\uhf{{\sf wUHF}}
+\def\uowhf{{\sf UOWHF}}
+\def\crhf{{\sf CRHF}}
+\def\axu{{\sf AXU}}
+\def\degree{{\sf deg}}
+\newcommand{\sd}[1]{\mathbf{SD}\paren{{#1}}}
+%\def\SD{{\sf SD}}
+\def\RD{{\sf RD}}
+\def\SI{{\sf SI}}
+\def\RI{{\sf RI}}
+\def\Enc{{\sf Enc}}
+\def\Dec{{\sf Dec}}
+
+\def\iEnc{{\sf InEnc}}
+\def\iDec{{\sf InDec}}
+
+\def\oEnc{{\sf OutEnc}}
+\def\oDec{{\sf OutDec}}
+\def\LRe{{\sf LREnc}}
+\def\LRd{{\sf LRDec}}
+\def\Te{{\sf TDEnc}}
+\def\Td{{\sf TDDec}}
+\def\Twe{{\sf \tilde TDEnc}}
+\def\Twd{{\sf \tilde TDDec}}
+\DeclareMathOperator*{\expe}{\mathbb{E}}
+
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\R}{\mathcal{R}}
+\def\Exp{{\mathbb{E}}}
+\def \PEnc {\mathsf{PEnc}}
+\def \PDec {\mathsf{PDec}}
+\def \RLEnc {\mathsf{RLEnc}}
+\def \RLDec {\mathsf{RLDec}}
+
+\newcommand{\prpfam}{\mathcal G}
+\newcommand{\prffam}{\mathcal F}
+\newcommand{\fn}{\mathcal H}
+
+\newcommand{\jac}[2]{\left(\frac{#1}{#2}\right)}
+\newcommand{\comput}{\approx}
+%\newcommand{\comput}{\cong_{c}}
+\newcommand{\randfrom}{\stackrel{r}{\leftarrow}}
+\newcommand{\ifeq}{\stackrel{?}{=}}
+\newcommand{\randto}{\stackrel{r}{\rightarrow}}
+\renewcommand{\epsilon}{\varepsilon}
+\renewcommand{\eps}{\varepsilon}
+%\newcommand{\binset}{\{0,1\}}
+
+\newcommand{\md}{Merkle-Damga{\aa}rd}

@@ -12,14 +12,18 @@
 \newcommand{\encrypt}{{\sf encrypt}}
 \newcommand{\game}{{\sf Game}}
 \newcommand{\dgame}{{\mathbf{Game}}}
+\newcommand{\T}{{\mathsf T}}
 \newcommand{\dgg}[2]{\game_{#1}^{#2}}
 \newcommand{\dgb}[2]{\game_{\cub{#1}}^{\cub{#2}}}
 \newcommand{\real}{{\mathsf {real}}}
 \newcommand{\fake}{{\mathsf {fake}}}
+\newcommand{\lastup}{{\mathsf {LastUp}}}
+\newcommand{\lastdown}{{\mathsf {LastDown}}}
 \newcommand{\gpi}{$Game^P_I$}
 \def\corrupt{{\sf corrupt}}
 \def\challenge{{\sf challenge}}
 \def\aout{\mathsf A_{out}}
+\def\vaa{0}
 \newcommand{\qF}[2]{\left[ (p_{#1},p_{#2}), \fake\right]}
 \newcommand{\qR}[2]{\left[ (p_{#1},p_{#2}), \real\right]}
 \input{preamble.tex}
@@ -40,7 +44,8 @@
 \section{Introduction}
 \section{Preliminaries}
 
-$s$-bounded adversary...
+\vaa
+$s$-bounded adversary ...
 \begin{definition}
 $(\eps,s)$-indistinguishable ...  if for any s-bounded adversary...
 $Y \sim_{(\eps,s)} X$ Or $\Delta_{s}(Y,X)<\eps$.
@@ -92,13 +97,13 @@ legitimate adversary
 \fi
 \section{Single path} %inderee one, outdegree one. 
 
-In this section, we study a simplified case. Assume that we know the graph constructed during the GSD game is a single path from some node $v_1$ to some challenge node $v_n$. Since all the nodes are on the path to the challenge, the attacker cannot corrupt any nodes. Furthermore there cannot be more than one challenge, for there is only one sink. \\
+In this section, we study a simplified case. Assume we know the graph constructed during the GSD game is a single path from some node $v_1$ to some challenge node $v_n$. Since all the nodes are on the path to the challenge, the attacker cannot corrupt any nodes. Furthermore there cannot be more than one challenge, for there is only one sink. \\
 
 \begin{theorem}
 Let $t,n \in \mathbb{N}$  and $0<\eps<1$. If an encryption scheme is \tcpa~secure, then it is also $(t',\eps',n,e)$-GSD secure for $\eps'= ...$ if the graph $G(\A)$ is a single path from a source node to a challenge.
 \end{theorem}
 
-\noindent \textbf{Notation.} We introduce a few notations that will help us with the descriptions of games. A \textit{real} response to a query of form \encrypt$(x,y)$ is $c\leftarrow \E_{k_x}(k_{y})$ and a \textit{fake} response to the same query is sampled from $\E_{k_x}(r_{y})$. Where $r_y$ is independently and uniformly chosen from $\zo^\lambda$ for all $y\in [n]$. Similarly a real response to a query \challenge$(z)$ is $k_z$ and a fake response is $r_z$. For any game we use the name of the game to represent the output distribution of the game. For example $\dgame$ is a random variable in $\zo$, distributed according to the output of the game called $\dgame$. Also we use the term ``guess" to describe an independent and uniform sampling from some set.\\
+\noindent \textbf{Notation.} We introduce a few notations that will help us with the descriptions of games we use in our proofs. A \textit{real} response to a query of form \encrypt$(x,y)$ is $c\leftarrow \E_{k_x}(k_{y})$ and a \textit{fake} response to the same query is sampled from $\E_{k_x}(r_{y})$. Where $r_y$ is independently and uniformly chosen from $\zo^\lambda$ for all $y\in [n]$. Similarly a real response to a query \challenge$(z)$ is $k_z$ and a fake response is $r_z$. For any game we use the name of the game to represent the output distribution of the game. For example, $\dgame$ is a random variable in $\zo$, distributed according to the output of the game called $\dgame$. Also we use the term ``guess" to describe an independent and uniform sampling from some set.\\
 
 \noindent \textbf{The simplified Game.} The single path game is defined as follow. $\game_b$: \B~chooses $n$ keys $k_1,k_2,\cdots,k_n$ uniformly and independently from $\zo^\lambda$. Each key is identified by its index in $[n]$. In addition to these keys, \B~also samples \textit{fake} keys $r_i$ uniformly and independently from $\zo^\lambda$ for each $i\in [n]$. \A~asks $n-1$ queries of the form \encrypt$(x,y)$ and one query of the form \challenge$(z)$, where $x,y$ and $z$ are all indices of the keys. These queries create the path $(p_1,p_2,\cdots, p_n)$ where each $p_i$ is the index of a key and appears only once.  \B~returns real responses to all \encrypt~queries and if $b=0$ the response to the challenge query is also the real answer ($k_{z}$) and otherwise it is the fake one $r_{z}$. In the end, \A~outputs a bit in $\zo$. The output of the game is $\A's$ output. If the encryption scheme $(\E,\D)$ is not $(t',n,\eps')$-GSD secure then there exists an adversary \A~running in time $t'$ such that
 $\abs{\prob{\game_0=1}-\prob{\game_1=1}}\geq \eps'.$
@@ -111,14 +116,14 @@ Meaning $\game_0$ and $\game_1$ are $(t',\eps')$-distinguishable. Our goal is to
 To break CPA security of $(\E,\D)$ we need to construct an adversary \a~that can distinguish between encryption of two different messages under a uniformly random key, with non-negligible probability. So the game is as follow. \a~chooses two messages $m_1$ and $m_0$ and gets a ciphertext $c\leftarrow \E_k(m_b)$ back and outputs $\tilde{b}$. The encryption scheme is not secure if \a~runs in time $t$ and
 \[\abs{\prob{{\mathcal A}_{m_0,m_1}^{(\E,\D)}=1|b=1}-\prob{{\mathcal A}_{m_0,m_1}^{(\E,\D)}=1|b=0}}>\eps.\]
 Intuitively, we like to find two games such that they only differ in the response distribution of one query. Let's  call this query \encrypt$(y,z)$, which is responded to with a real ciphertext in $\dgame$ and with a fake ciphertext in $\dgame'$. This way the adversary that distinguishes these two games with probability higher than $\eps$, can distinguish between the $\E_{k_y}(k_z)$and $\E_{k_y}(r_z)$. So far it seems like even the two games $\game_{\emptyset}$ and $\game_{\cub{n}}$ should be enough to construct adversary \a. However we need the key of the encryption to be uniformly and independently random. But $\A$ can query $\encrypt(x,y)$ for some $x \in [n]$. To ensure that $k_y$ looks uniform and independent to $\A$ (and consequently to the adversary \a), we add another requirement to the games that we are looking for. Namely if a query of the form \encrypt$(x,y)$ is made, it is responded to with a fake response in both games, i.e. $c \leftarrow \E_{k_x}(r_y)$. This way $k_y$ remains independent and uniform. \\
- 
-  In short, we are going to show that there are two games ($\dgame$ and $\dgame'$) which are $(t,\eps)$-distinguishable if $\game_{\emptyset}$ and $\game_{\cub{n}}$ are $(t',\eps')$-distinguishable and have the following two properties which will enable us to derive the contradiction.
-\iffalse
+
+  In short, we are going to show that there are two games ($\dgame$ and $\dgame'$) which are $(t,\eps)$-distinguishable if $\game_{\emptyset}$ and $\game_{\cub{n}}$ are $(t',\eps')$-distinguishable and have the following two properties which will enable us to derive the contradiction. 
+\if\vaa1
 \begin{enumerate}[Property 1.]
  \item $\dgame$ and $\dgame'$ are identical except for the response to one query $\encrypt(y,z)$, which is replied to with a real ciphertext in $\dgame$ and a face one in $\dgame'$.
  \item If a query $\encrypt(x,y)$ is made during the game, a fake response is returned, in both game.
- \end{enumerate}\fi
- 
+ \end{enumerate}
+ \fi
  As a first attempt to find the two games, we consider the following games $G_1, G_2, \cdots, G_{2n}$ where $[(x,y), {\mathsf{fake/real}}]$ indicates that the query $\encrypt(x,y)$ was made and according to the rules of the game, it was responded to with a fake or real ciphertext. And the challenge query is always replied to with a real key. 
  
  \begin{itemize}
@@ -145,14 +150,15 @@ Intuitively, we like to find two games such that they only differ in the respons
 By inequality \ref{3.2}, at least one of the pairs of games is going to be $(t',\eps'/3n)$-distinguishable. Every pair of games differ in exactly one point, which is easy to spot looking at the subscript of each game. For instance, the differentiating point in $\dgb{n/2,n}{n/2}$ and $\dgb{n}{n/2}$ is node $n/2$. For each pair of games, the guessed node cuts the path to the challenge in half, one half is identical in both games and the other half, ends with the differentiating point. Regardless of which pair of games is actually the most distinguishable, we can repeat the same process on the half of the path which ends with the differentiating query, ignoring the identical half of the path. For example, for games $\dgb{n/2,n}{n/2}$ and $\dgb{n}{n/2}$ we repeat the process of guessing the middle point and replacing the real answer with fake one for the first half of the path, i.e., we guess node $p_{n/4}$ and so on. At each guessing step we lose a factor of $n$ and at each \textit{bridging} step, where we move to the next guessing step, we lose a factor of $3$. We recursively repeat these two steps until every pair of games that differ in exactly one query ( satisfies property 1) also satisfies property 2. \\
 
 \noindent \textbf{The intuition.} Informally, we had two distinguishable games and we wanted to say that some non-negligible amount of the distinguishing power of the adversary comes from a single step in the two games. And we want to find that step. The common method to do this, is to define hybrid games differing in one step. This would allow us to pinpoint the step which is distinguishable. But we have two problems, one: we do not know which step is taken at every moment, and two: there are too many steps to guess them all! So we defined two games which are ``less'' distinguishable than the first two games, but one step is ``fixed" so we could define other hybrid games which at least two of them are still non-negligibly distinguishable. The other positive result is that now the distinguishing power of the adversary must lay in a smaller set of steps, so we have reduced the original problem into a smaller one. \\
+\if\vaa1
 
 \begin{enumerate}[Step 1.]
 \item Guessing a node in the middle of the path: \begin{itemize} \item Allows us to define hybrid games which differ in one step.  This will bring us closer to the games that satisfy property 1. \item We lose a factor of $n$ in the distinguishing advantage. \end{itemize}
-\item Pick a pair of games defined in Step 1 as the pair which is most distinguishable: \begin{itemize} \item We lose a factor of 3 in the distinguishing advantage. \item  Which specific pair of games is picked, is not important. What matters is that one of the pairs is non-negligibly distinguishable. That is enough to be able to proceed. \item The length of the path which contains the distinguishable step is reduced to half of what it was before. This helps us in finding the games that satisfy property 2.
+\item Pick a pair of games defined in Step 1 as the pair which is most distinguishable: \begin{itemize} \item We lose a factor of 3 in the distinguishing advantage. \item  Which specific pair of games is picked, is not important. What matters is that one of the pairs is non-negligibly distinguishable. That is enough to be able to proceed. \item The length of the path which contains the distinguishable step is reduced to half of what it was before. This helps us in eventually finding the games that satisfy property 2.
 \end{itemize}
 \end{enumerate}
-
-To explain our method in details, we define a series of games, $\dgg{I}{P}$. The difference in these games is in the nodes on the path that are guessed and also the nodes where the real answer is replaced with a fake one. In all these games the challenge query is responded to with a real answer and the fake responses are a subset of guessed node and the first and last node on the path. 
+\fi
+\textbf{The hybrid games.} To explain our method in details, we define a series of games, $\dgg{I}{P}$. The difference in these games is in the nodes on the path that are guessed and also the nodes where the real answer is replaced with a fake one. In all these games the challenge query is responded to with a real answer and the fake responses are a subset of guessed node and the first and last node on the path. 
 
 \begin{itemize}
 \item The $\game$ is similar to the simplified game. \B~chooses $2n$ keys $k_1,r_1,k_2,r_2\cdots,k_n,r_n$ uniformly and independently from $\zo^\lambda$. Each real and fake key is identified by its index in $[n]$. \A~asks $n-1$ queries of the form \encrypt$(x,y)$ and one query of the form \challenge$(z)$, where $x,y$ and $z$ are all indices of the keys. These queries create the path $(p_1,p_2,\cdots, p_n)$. In the end \A~outputs a bit in $\zo$.
@@ -166,7 +172,7 @@ To explain our method in details, we define a series of games, $\dgg{I}{P}$. The
 \end{itemize}
 \end{itemize}
 
-Roughly, we start with $P:=\emptyset$ and $I=\emptyset$ and $I'=\{n\}$. Adding an element $x$ to $P$ means we have taken Step 1, (losing a factor $n$) and so we can define two other hybrids by adding $x$ to $I$ and $I'$. Now we have 4 games, which make 3 up pairs, each pair differing in one step. So we know one pair is at least $\eps/3n$ distinguishable (Step 2). We continue this process until every pair of games satisfies both properties. Since every rounds cuts the size of distinguishable path to half, we only need to repeat the two steps $\log(n)$ times. 
+We start with $P:=\emptyset$ and $I=\emptyset$ and $I'=\{n\}$. Adding an element $x$ to $P$ means we have taken Step 1, (losing a factor $n$) and so we can define two other hybrids by adding $x$ to $I$ and $I'$. Now we have 4 games, which make up 3 pairs, each pair differing in one step. Hence we know one pair is at least $\eps/3n$ distinguishable (Step 2) and we can repeat from step 1, with the pair of this pair of games. We continue this process until every pair of games satisfies both properties. Since every round cuts the size of distinguishable path to half, we only need to repeat the two steps $\log(n)$ times. 
 
 \begin{lemma}
 Let $P\subset [n], I \subset P\cup \{n\}$ and $z\in P\setminus I$. Also let $y$ be the largest number in $I$ such that $y < x$, and $y=1$ if  $x$ is smaller than all elements in $I$. If $\dgg{I}{P}$ and $\dgg{I\cup \{x\}}{P}$ are $(t,\eps)$-distinguishable then 
@@ -198,7 +204,7 @@ Let $t,n \in \mathbb{N}$  and $0<\eps<1$. If an encryption scheme is \tcpa~secur
 
 First we describe the chosen plaintext attack in more details. The game between the adversary \a~and challenger \ch, is as followed. \ch~chooses a uniformly random key $k$ and a bit $b$. \a~can send queries of form $(m_0,m_1)$ to \ch, and receives $c\leftarrow \E_k(m_b)$ from \ch. To receive the encryption of a specific message $m$ \a~can query $(m,m)$. \a~is not allowed to query the same message in two different queries. In the end, \a~will output a bit in $\tilde{b}\in \zo$. The encryption scheme is secure if for any $t$-bounded adversary \a, $\prob{\tilde{b}=b} \leq 1/2+\eps.$
 
- In this $GSD$ game the $G(\A)$ is a tree in which every node has indegree at most 1 but can have outdegree more than 1. Notice there is still only one path to the challenge node. Thus we can use the same method we used before: we guess the path to the challenge node gradually in a series of games and find the two games $\dgame$ and $\dgame'$ with the same properties as before. Let $\encrypt(y,z)$ be the query that is replied to differently in the two games and $\encrypt(x,y)$ be the query which is replied with a fake answer in both games. We try to construct an adversary \a~to break the \tcpa~security of the encryption scheme. The only difference is that now $\A$ can ask for encryption of other messages under the same key $k_y$. However, \a~is also allowed to ask for the encryption of different message under the uniform key. Therefore if there is a player $\A$ distinguishing between the two games $\dgame$ and $\dgame'$, \a~can simulate $dgame$ on its own, by playing the part of player \B. When $\A$ queries $\encrypt(y,z)$\a~sends $(k_z,r_z)$ to the challenger \ch~and sends the response $c$ from \ch~back to $\A$. Similarly, if $\A$ queries $\encrypt(y,z')$, \a~sends $(k_{z'},k_{z'})$ to \ch and sends the response from \ch~to $\A$. This way, if \ch~has chosen $b=0$ then the game \a~is simulating is $\dgame$, with the real reply to query $\encrypt(y,z)$, and if $b=1$ then the game is $\dgame'$, and if $\A$ can distinguish them then \a~can win the CPA game with the same advantage.
+ In this $GSD$ game the $G(\A)$ is a tree in which every node has indegree at most 1 but can have outdegree more than 1. Notice there is still only one path to the challenge node. Thus we can use the same method we used before: we guess the path to the challenge node gradually in a series of games and find the two games $\dgame$ and $\dgame'$ with the same properties as before. Let $\encrypt(y,z)$ be the query that is replied to differently in the two games and $\encrypt(x,y)$ be the query which is replied with a fake answer in both games. We try to construct an adversary \a~to break the \tcpa~security of the encryption scheme. The only difference is that now $\A$ can ask for encryption of other messages under the same key $k_y$. However, \a~is also allowed to ask for the encryption of different message under the uniform key. Therefore if there is a player $\A$ distinguishing between the two games $\dgame$ and $\dgame'$, \a~can simulate $\dgame$ on its own, by playing the part of player \B. When $\A$ queries $\encrypt(y,z)$\a~sends $(k_z,r_z)$ to the challenger \ch~and sends the response $c$ from \ch~back to $\A$. Similarly, if $\A$ queries $\encrypt(y,z')$, \a~sends $(k_{z'},k_{z'})$ to \ch and sends the response from \ch~to $\A$. This way, if \ch~has chosen $b=0$ then the game \a~is simulating is $\dgame$, with the real reply to query $\encrypt(y,z)$, and if $b=1$ then the game is $\dgame'$, and if $\A$ can distinguish them then \a~can win the CPA game with the same advantage.
 
 
 \section{Multiple paths}
@@ -206,29 +212,19 @@ First we describe the chosen plaintext attack in more details. The game between 
 In this section we study a more complicated case, where the graph can have multiple paths to the same challenge node. Similar to the last section, we first consider the case where every node has outdegree at most 1 and then the case where nodes can have outdegree more than 1.
 
 \subsection{Single outgoing edge.}
-Every key in the game is selected independently from each other and are only related if they are queried by $\A$, and are part of a same connected component of the graph $G(\A)$. So we can only focus on the connected component of the graph that includes the challenge node. Thus in this case, we assume $G(\A)$ is a tree with nodes of outdegree at most 1. This means every node in the graph is on a path to the challenge. 
+Every key in the game is selected independently from each other and are only related if they are queried by $\A$, and are part of the same connected component of the graph $G(\A)$. Accordingly we can only focus on the connected component of the graph that includes the challenge node. Thus in this case, we assume $G(\A)$ is a tree with nodes of outdegree at most 1. This means every node in the graph is on a path to the challenge. \\
 
-\noindent \textbf{The naive approach.} Interestingly the naive approach is the same as for the case of the single path. \\
+%\noindent \textbf{The naive approach.} %Interestingly the naive approach is the same as for the case of the single path. \\
 
 \noindent \textbf{Our approach.}
-The idea is the same as before: to find two games $\dgame$ and $\dgame'$ which are $(t,\eps)$-distinguishable if $\game_{\emptyset}$ and $\game_{\{n\}}$ are $(t',\eps')$-distinguishable, and have the two essential properties. Once again we like to find a way to reduce the problem in size. For simplicity we first assume that we know the number of paths to the challenge query ($m$). We later remove this assumption. 
+The idea is the same as before: to find two games $\dgame$ and $\dgame'$ which are $(t,\eps)$-distinguishable if $\game_{\emptyset}$ and $\game_{\{n\}}$ are $(t',\eps')$-distinguishable, and have the two essential properties. Property 1, the two games differ in exactly one query, $\encrypt(y,x)$ . Property 2, all the queries asking for encryption $k_y$ are replied with a fake response, as to keep $k_y$ independent of all the other queries. Once again we define hybrid games differing in only one query, for which we need to first guess a node in the game to be able to describe where the two games are different. Furthermore now we need to guess which ingoing edge (query) is  going to be different. Before we chose the middle node on the path as the node  we would like to find. The reason for that was to reduce the problem, to smaller problems (i.e. to find the half of the path containing a distinguishable step). Here we need a new metric since there are multiple paths. We try to reduce the number of paths in a distinguishable tree. We guess a node $v$ such that (nearly) half of the paths to the challenge node go through $v$. Either the The subtree ending in $v$ is distinguishable or the rest of the original tree,  or both! Regardless we can recurse on one distinguishable subtree trying to halve the number of paths to the (now) sink node in that subtree. Until there is only one path left, where we can apply the same method used in the last section to find the distinguishable edge. \\
 
-Recall that the graph $G(\A)$ is a tree, and every node in $G(\A)$ is on a path to the challenge. There can be at most $n$ paths to the challenge node. Assume we knew a node in the graph that is on $w$ of paths to the challenge 
-Here we first try to guess points on the graph that once removed the number of paths to the challenge node is oging to be reduced to less than or equal to half in every subgraph  define hybrid games to get...
+\noindent \textbf{More notation.} For every node $x\in [n]$, let $\T_x$ be the graph of all the paths in $G(\A)$ that reach $x$. Also for two trees $\T_1$ and $\T_2$, such that $\T_2$ is a subgraph of $\T_1$, let $\T_1-\T_2$ be the graph obtained from $T_1$ after removing edges in $\T_2$. We call a node with indegree 0, a source. We say a node $v$ in the tree $\T$ \textit{nearly} halves the tree if number of sources in $\T_v$ is between $1/3$ to $2/3$ of all the sources in $\T$ (any two constant fractions can be used to define this notion). Note that number of paths to a node $v$ is the same as number of sources in $T_v$. \\
 
-\iffalse To explain our method in details, we define a series of games, $\dgg{I}{P}$. The difference in these games is in the nodes on the path that are guessed and also the nodes where the real answer is replaced with a fake one. In all these games the challenge query is responded to with a real answer and the fake responses are a subset of guessed node and the first and last node on the path. 
-\fi
+\noindent For simplicity we first assume that we know the number of paths to the challenge query ($m$). We later remove this assumption. Recall that the graph $G(\A)$ is a tree, and every node in $G(\A)$ is on a path to the challenge. Once more we define games \gpi, where $P$ is the set that determines the nodes on the graph that are going to be guessed and $I$ the is set that determines which of the queries involving the guessed nodes are going to be replied with a fake answer. At the end of the game, if all the guesses are correct, the output of the game is $\A$'s output and otherwise it is 0.\\
 
-\begin{itemize}
-\item The $\game$: \B~chooses $2n$ keys $k_1,r_1,k_2,r_2\cdots,k_n,r_n$ uniformly and independently from $\zo^\lambda$. Each real and fake key is identified by its index in $[n]$. \A~asks $n-1$ queries of the form \encrypt$(x,y)$ and one query of the form \challenge$(z)$, where $x,y$ and $z$ are all indices of the keys. These queries create the path $(p_1,p_2,\cdots, p_n)$. In the end \A~outputs a bit in $\zo$.
- 
-\item $P$ is a subset of integers in $[n]$. The elements in $P$ determine which nodes in the graph are going to be guessed by \B.   For example, if $4\in P$, \B~will guess the node $v\in [n]$  which will be the 4th node on the path to the challenge. For every $i \in P$ let $v_i$ be the node guessed for the $i$th position. Clearly \B can only know if these guesses were made correctly at the end of the game. If any of these guesses are wrong, we set the output to $0$ and the game ends. In other words, $\dgg{I}{P}=0$ unless for all $i\in P$, $p_i=v_i$.
+\noindent \textbf{The check.} We start by checking if the challenge node (here called $v_0$) was guessed correctly. Although checking if the rest of guesses are correct is not as easy as it was before. For any new element added to the guessed set $P$, a correctly guessed needs to halve the number of paths in some specific subtree. For instance, the guessed node $v_1$ (the first node guessed after the challenge node) is a good guess if nearly half the paths to the challenge node go through $v_1$. However for $v_2$, the  next guessed node, we need to know if we were supposed to guess a node on the upper subtree, $\T_{v_1}$ or the bottom subtree, $\T_{v_0}-\T_{v_1}$. So $P$ is a subset of elements of the form $(i,d), i\in [n]$ and $d \in \cub{up,down}$. $i$ is simply for ordering the list, (for each $i$, $v_i$ is the $i$th guessed node after the challenge node), and $up$ and $down$ determine whether the next guessed node is going to be in the upper or bottom subtree. For example if the graph is a path and $P$, as define in the last section is $\cub{n/2,3n/4,5n/8}$, in the new format it is $\cub{(0,up),(1,up), (2,down), (3,up)}$. Let the variable $\lastup$, be the latest step with $d=up$ and similarly let $\lastdown$ be the latest step where $d=down$. For each $i\in P$, $v_i$ is a good guess if nearly half of the paths to $v_{\lastup}$ in the subtree $\T_{\lastup}-\T_{\lastdown}$, go through $v_i$. The check passes if all the guessed nodes are good. \\
 
-\item $I$ is a subset of $P\cup \{n\}$. The elements in $I$ determine the distribution of \B's responses to queries of \A.
-\begin{itemize}
-\item \encrypt~query: If $i\in I$, \encrypt$(x,v_i)=\E_{k_x}(r_{v_i})$, otherwise \encrypt$(x,v_i)=\E_{k_x}(k_{v_i})$. In other words, if $i\in I$, then the query requesting the encryption of $v_i$ is returned with a fake response.
-\item \challenge~query: \challenge$(v_i)=k_{v_i}$. The challenge query is always replied honestly. 
-\end{itemize}
-\end{itemize}
+\noindent \textbf{Fake responses.} In the last section, $I$ was a subset of $P$ and for every element $x$ in $I$ the $\encrypt(*,x)$ query was responded with a fake answer. Unlike before, here we can have multiple queries of form $\encrypt(*,x)$, therefore $I$ needs to determine which queries are fake for each node in $P$. To do so, we define $I$ as follow. For every element $(i,d)\in P$ there is an element $(i,j)\in I$, for some $j\in [n]$ and this means that the first $j$th queries of form $\encrypt(*,x)$ are responded with fake answers and the rest of queries are responded with real ones. If $j$ is greater than the indegree of $v_i$
 
 \end{document}

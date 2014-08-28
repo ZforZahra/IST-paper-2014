@@ -316,7 +316,7 @@ For $m\leq \log (n)$
   \item $I=\cub {(i,f)\ | i \in \cub{0,1,\cdots,m}, f\in \zo}$. If $(i,n)\in P$ then $(i,0) \in I$. 
   \item In \gpi, player $\B$ guesses $m+1$ nodes, $v_0,v_1,\cdots,v_m$. For each guessed node $v_i$, $\B$ will return fake responses to the first $s-1+f$ queries $\encrypt(*,v_i)$ and real responses to the rest of such queries. At the end of the game player $\A$ outputs bit $b\in \zo$.
  \item $\bigt{0}=\T$ and $\bigtb{0}=\emptyset$. For $(i,s)\in P$ and $i\geq 0$, if $s<n$ then $\bigtb{i+1}=\bigtb{i}x$ and $\bigt{i+1}=\T_{\bigv{s}}-\bigtb{i+1}.$ If $s=n$ then $\bigtb{i+1}=\bigtb{i}+\T_{\bigv{i}},$ and $\bigt{i+1}=\bigt{i}- \bigtb{i+1}.$
-\item If $v_0$ is the challenge node and for $i>0$, $v_i$ well-divides $\bigt{i}$ which are defined as follows. \gpi=b, otherwise \gpi=0. 
+\item If $v_0$ is the challenge node and for $i>0$, $v_i$ well-divides $\bigt{i}$, then \gpi=b otherwise \gpi=0. 
 \end{itemize}
 \end{boxfig}
 
